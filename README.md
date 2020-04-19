@@ -1,35 +1,30 @@
-
 <div style="text-align: center; line-height: 0; padding-top: 9px;">
   <img src="./img/koalas.png" alt="Header" style="width:940px; height:270px">
 </div>
 
 ## __Koalas the New open source Pandas API - Notebook Example__
 
-#### In this projet, I will show you the further steps to install koalas! 
-
-#### Koalas project makes data scientists more productive when interacting with big data, by implementing the pandas DataFrame API on top of Apache Spark.
+#### By the end of this Tutorial you will be able to install, use and master Databricks Koalas! 
 
 ### __Steps shown in this Notebook:__
 * #### Koalas Introduction.
 * #### Koalas Installation.
 * #### Koalas,Spark and Pandas How it works between each other?.
 * #### Pandas, Spark and Koalas performance test
-* #### Koalas - Example 1 : From Pandas into koalas Example
-* #### Koalas - Example 2 : From Pyspark into Koalas Example
+* #### Koalas - Example 1 : From Pandas to koalas Example
+* #### Koalas - Example 2 : From Pyspark to Koalas Example
 * #### Koalas - Example 3 : Transforming Data for Features Engineering
 * #### __Bonus : Optimization with Apache Arrow__
 
 
 ## __Koalas Introduction__ 
 
->     The Koalas project makes data scientists more productive when interacting with big data, 
->     by implementing the pandas DataFrame API on top of Apache Spark.
+>     The Koalas project makes data scientists more productive when interacting with big data, by implementing the pandas DataFrame API on top of Apache Spark.
 
->     pandas is the de facto standard (single-node) DataFrame implementation in Python,
->     while Spark is the de facto standard for big data processing. With this package, you can:
+>     pandas is the de facto standard (single-node) DataFrame implementation in Python, while Spark is the de facto standard for big data processing. With this package, you can:
     
 >     - Be immediately productive with Spark, with no learning curve, if you are already familiar with pandas.
->     - Have a single codebase that works both with pandas (tests, smaller datasets)and with Spark (distributed datasets).
+>     - Have a single codebase that works both with pandas (tests, smaller datasets) and with Spark (distributed datasets).
 #### SOURCE : https://koalas.readthedocs.io/en/latest/index.html
 
 ___
@@ -42,15 +37,13 @@ ___
 $ conda install koalas -c conda-forge
 ```
 
-#### The alternative way to use to install koalas is Pypi
+#### The alternative way to install koalas is Pypi
 
 ```sh 
 $ pip install koalas==0.31.0
 ```
 
-#### for the date when this post was written the last realese is 0.31.0 for newes realease check https://pypi.org/project/koalas/0.31.0/
-
-----
+#### till the date when this post was written; the lastest release is 0.31.0 - for newest release please check https://pypi.org/project/koalas/0.31.0/
 
 ## __Pandas, Spark and Koalas what is under the hood__
 
@@ -58,28 +51,28 @@ $ pip install koalas==0.31.0
   <img src="./img/archi.png" alt="Header" style="width:1040px; height:630px">
 </div>
 
-#### Let's digg a little bitte deeper into the transformations between this trees Dataframes, and ow we can take more adventages from each one.
-#### Pandas dataframes are in-memory, `single-server`. So their size is limited by a single server memory. And in other hand Spark dataframes are distributed on spark cluster which contains master and multi-worker nodes (in general cas), so the dataframes size is limited by the size of the cluster. If we need to handle more data, we just need to add more nodes in the cluster, and this is the `spark scalable`.
-#### For Koalas is designed to be the bridge between Pandas DataFrame and Spark DataFrame by augmenting PySpark’s DataFrame API to make it compatible with pandas DataFrame API.
+#### Let's digg a little bit deeper into the transformations between this trees Dataframes, and how we can take advantage from each one.
+#### Pandas dataframes are in-memory, `single-server`. So their size is limited by a single server memory. However Spark dataframes are distributed on spark cluster which contains driver and multi-worker nodes (in general case), so the dataframes size is limited by the size of the cluster. If we need to handle more data, we just need to add more nodes in the cluster, and this refer to the : `spark scalablity side`.
+#### For Koalas is designed to be the bridge between Pandas DataFrame and Spark DataFrame, and it combine the benefits of both pandas and pyspark dfs
 
 
 ## __Pandas, Spark and Koalas performance test__
 
 #### Basic Functions 
 
-<div style="text-align: center; line-height: 0; padding-top: 9px;">
+<div> style="text-align: center; line-height: 0; padding-top: 9px;">
   <img src="./img/1kps.png" alt="performance 1" style="width:1040px; height:630px">
-</div>
+</di>
 
 #### UDF
 
-<div style="text-align: center; line-height: 0; padding-top: 9px;">
+<div> style="text-align: center; line-height: 0; padding-top: 9px;">
   <img src="./img/2kps.png" alt="performance 2" style="width:1040px; height:630px">
-</div>
+</di>
 
 source : https://databricks.com/blog/2019/08/22/guest-blog-how-virgin-hyperloop-one-reduced-processing-time-from-hours-to-minutes-with-koalas.html
 
-## __Koalas - Example 1 : From Pandas into koalas example__ 
+## __Koalas - Example 1 : From Pandas to koalas example__ 
 ```python
 import pandas as pd
 pd_df = pd.read_csv("../data/titanic_data.csv")
@@ -91,8 +84,7 @@ import databricks.koalas as ks
 ks_df = ks.from_pandas(pd_df)
 ks_df.head(5)
 ```
-
-## __Koalas - Example 2 : From spark into koalas example__ 
+## __Koalas - Example 2 : From spark to koalas example__ 
 
 ### Note : If you are using python, You run this cell to create spark context
 ```python
@@ -120,7 +112,7 @@ s_df_clean = s_df.where(f.col("Age").isNotNull())
 
 s_df_clean.show(5)
 ```
-#### Let's change spark dataframe into koalas dataframe
+#### Let's change spark dataframe to koalas dataframe
 ```python
 ks_df = s_df.to_koalas()
 ```
@@ -133,14 +125,16 @@ ks_df_clean.head(5)
 ## __Koalas - Example 3 : Transforming Data for Features Engineering__
 
 ### __1 Understanding DataFrame Schema__ 
-```python
+
 # DataFrame column names
+```python
 pd_cols = pd_df.columns
 s_cols = s_df.columns
 ks_cols = ks_df.columns
 ```
-```python
+
 # DataFrame column data type
+```python
 pd_types = pd_df.dtypes
 s_types = s_df.dtypes
 ks_types = ks_df.dtypes
@@ -221,42 +215,48 @@ s_df.drop('Name', 'PassengerId').show(3)
 
 #### for the optimization of Pandas Koalas conversion, Apache Arrow, which is an intermediate columnar storage format, that helps in faster data transfer. [reading more about Apache Arrow](https://arrow.apache.org/).
 
+
 ### installing Apache Arrow
 
 ```sh
 $ pip install pyarrow
 ```
 
-### let's test 3 options with %timeit:
-* #### 1st one : converting pandas df into koalas without Arrow intermidiation 
-* #### 2nd one : converting pandas df into koalas with the implicit Apache Arrow intermidiation 
-* #### 3rd one : converting pandas df into koalas with explicite Apache Arrow intermidiation 
+### let's test 3 options with %%timeit:
+* #### 1st one : converting pandas df to koalas without Arrow intermediation 
+* #### 2nd one : converting pandas df to koalas with the implicit Apache Arrow intermediation 
+* #### 3rd one : converting pandas df to koalas with explicite Apache Arrow intermediation 
 
 
-##### __Note : The test will be done by using 1.5 Millions row dataSet__ 
+##### __Note : The test will be done by using 1.5 Millions row dataSet__  [dataset source](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/).
 
 #### __converting pandas df into koalas without Arrow intermidiation__
 ```python
 %%timeit
 spark.conf.set("spark.sql.execution.arrow.enabled", False)
-pd_df_ = pd.read_csv("../data/1500000_Sales_Records.zip")
+pd_df_ = pd.read_csv("../data/1500000_Sales_Records.zip", header=0, sep=',')
 ks_df_ = ks.from_pandas(pd_df_)
 ```
+output : __23.5 s ± 255 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)__
 #### __converting pandas df into koalas with the implicit Apache Arrow intermidiation__
 ```python
 %%timeit
 spark.conf.set("spark.sql.execution.arrow.enabled", True)
-pd_df_ = pd.read_csv("../data/1500000_Sales_Records.zip")
+pd_df_ = pd.read_csv("../data/1500000_Sales_Records.zip", header=0, sep=',')
 ks_df_ = ks.from_pandas(pd_df_)
 ```
+output : __6.18 s ± 52.4 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)__
 #### __converting pandas df into koalas with the Explicit Apache Arrow intermidiation__
 ```python
 %%timeit
-from pyarrow import csv
+from pyarrow import csv  ## csv will be used to read zipped csv file
 spark.conf.set("spark.sql.execution.arrow.enabled", True)
-arrow_table = csv.read_csv("../data/1500000_Sales_Records.zip")
+arrow_table = csv.read_csv("../data/1500000_Sales_Records.zip", header=0, sep=',')
 ks_df_ = ks.from_pandas(arrow_table.to_pandas())
 ```
+output : __4.04 s ± 39.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)__
+
+
 ## __Conclusion__ 
 
 #### Simply, Koalas is a Python package that is similar to Pandas. It performs computation with Spark. (as simple as that 😋)
